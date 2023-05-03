@@ -1,0 +1,49 @@
+\section{Dynamic time warping}
+
+Given a time series of three-dimensional unknown vector data points, we would like to predict the sketch represented by these points. In order to do this, we used a K-Nearest Neighbors approach where we find the $k$ most similar time series in the dataset and use the most represented target value among the $k$ time series and use it as the prediction output.
+
+To find the $k$ most similar time series, we use a distance function as the similarity measure. However, we cannot use the often used euclidean distance as it produces pessimistic results when dealing with time series of different lengths.
+
+% TODO: explain with an example why euclidean distance does not work ?
+
+Dynamic time warping is a solution to this problem, it finds the optimum alignement between two time series by "warping" the time dimension...
+
+% TODO: show figures as explanation (knn and distance matrix with shortest path)
+
+Let $s = (s_1, \dots, s_n)$ and $t = (t_1, \dots, t_m)$ be two time series of length $n$ and $m$ respectively where $s_i$, $t_j$ are the position vector $\in \R^3$ for $i = 1,\dots,n$ and $j = 1,\dots,m$. We define a warping of order $n \times m$ as a sequence of $k$ points $x = (x_1, \dots, x_k)$ where $x_l = (i_l, j_l) \in [1, n] \times [1, m]$. Each points $x_l$ of the path aligns the vector $s_{i_l}$ with the vector $t_{i_l}$.
+We want to find the optimal warping path $x^{\ast}$ that consists in the warping path that minimizes the square root of the following cost,
+\begin{equation}
+	C_x(s, t) = \sum_{l=0}^{k} ||s_{i_l} - t_{j_l} ||^2_2
+\end{equation}
+where $x$ is a warping path.
+
+The following constraints apply,
+\begin{itemize}
+	\item \textbf{boundary conditions}: $x_1 = (1, 1)$ and $x_k = (n, m)$.
+	\item \textbf{locality}: $x_{l+1} - x_{l} \in \set{(1,0),(1,1),(0,1)}, \quad \forall l \in [1, k-1]$.
+\end{itemize}
+
+The locality condition implies a monotonicity condition: $s_1 \leq \dots \leq s_n$ and $t_1 \leq \dots s_m$.
+
+We can then compute the DTW distance by computing the total cost of the warping path $x^{\ast}$. 
+
+In practice we apply the following algorithm is to find the optimal path,
+\begin{enumerate}
+	\item We define a distance matrix $D \in \R^{n \times m}$ where $D_{i,j}$ is the distance between ...
+	\item Each entry is computed by using the following recursion formula,
+	\begin{equation}
+		D_{i,j} = \sqrt{||s_i - r_j||} - \min{(D_{i-1,j}, D_{i-1,j-1}, D_{i,j-1})}
+	\end{equation}
+	with the initial condition $D_{1,1} = 0$
+\end{enumerate}
+
+This algorithm has $\mathcal{O}(nm)$ time complexity. This can be improved by the use of a window of size $r > 0$ that will constrain the amount of warping allowed. In particular, it restrains the distance in the time axis that a point $s_i$, $i = 1,\dots,n$ can be mapped to in $t$.
+
+We used the so-called \textit{"Sakoe-Chiba Band"} window which assumes that the best path will not stray too far away from the main diagonal of the distance matrix. 
+Let $w$ be the window size, the window constraint implies the following,
+\begin{align*}
+	j - w \leq i \leq j + w
+\end{align*}
+where $i$ and $j$ are two points aligning in $s$ and $t$ respectively.
+
+The number of cells that needs to be computed in the distance matrix is therefore reduced.
