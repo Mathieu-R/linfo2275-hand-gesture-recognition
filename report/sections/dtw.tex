@@ -6,44 +6,43 @@ To find the $k$ most similar time series, we use a distance function as the simi
 
 % TODO: explain with an example why euclidean distance does not work ?
 
-Dynamic time warping is a solution to this problem, it finds the optimum alignement between two time series by "warping" the time dimension...
+Dynamic time warping - a often used technique in speech recognition problem - is a solution to this problem, it finds the optimum alignment between two time series by "warping" non-linearly a time series stretching or shrinking its time axis. Once we found the optimal alignment, we can determine the similarity between these twos.
 
 % TODO: show figures as explanation (knn and distance matrix with shortest path)
 
 Let $s = (s_1, \dots, s_n)$ and $t = (t_1, \dots, t_m)$ be two time series of length $n$ and $m$ respectively where $s_i$, $t_j$ are the position vector $\in \R^3$ for $i = 1,\dots,n$ and $j = 1,\dots,m$. We define a warping of order $n \times m$ as a sequence of $k$ points $x = (x_1, \dots, x_k)$ where $x_l = (i_l, j_l) \in [1, n] \times [1, m]$. Each points $x_l$ of the path aligns the vector $s_{i_l}$ with the vector $t_{i_l}$.
-We want to find the optimal warping path $x^{\ast}$ that consists in the warping path that minimizes the square root of the following cost,
-\begin{equation}
-	C_x(s, t) = \sum_{l=0}^{k} ||s_{i_l} - t_{j_l} ||^2_2
-\end{equation}
-where $x$ is a warping path.
 
 The following constraints apply,
 \begin{itemize}
-	\item \textbf{boundary conditions}: $x_1 = (1, 1)$ and $x_k = (n, m)$.
+	\item \textbf{boundary conditions}: $x_1 = (1, 1)$ and $x_k = (n, m)$. This ensures that every index of the time series are used in the warp path.
 	\item \textbf{locality}: $x_{l+1} - x_{l} \in \set{(1,0),(1,1),(0,1)}, \quad \forall l \in [1, k-1]$.
 \end{itemize}
 
-The locality condition implies a monotonicity condition: $s_1 \leq \dots \leq s_n$ and $t_1 \leq \dots s_m$.
+The locality condition implies a monotonicity condition: $s_1 \leq \dots \leq s_n$ and $t_1 \leq \dots s_m$. This monotonicity implies that the lines representing the warp path do not overlap.
+
+Among all the warping path we can construct, want to find the optimal warping path $x^{\ast}$ that consists in the warping path that minimizes the square root of the following cost given for any warping path $x$,
+\begin{equation}
+	C_x(s, t) = \sum_{l=0}^{k} ||s_{i_l} - t_{j_l} ||^2_2
+\end{equation}
 
 We can then compute the DTW distance by computing the total cost of the warping path $x^{\ast}$. 
 
-In practice we apply the following algorithm is to find the optimal path,
+In practice, to find the optimal path, we use a dynamic programming approach which consists in the following algorithm,
 \begin{enumerate}
-	\item We define a distance matrix $D \in \R^{n \times m}$ where $D_{i,j}$ is the distance between ...
+	\item We define a distance matrix $D \in \R^{n \times m}$ where $D_{i,j}$ is the minimum-distance for the warping path between $s' = (s_1,\dots,s_i)$ and $t' = (t_1,\dots,t_j)$.
 	\item Each entry is computed by using the following recursion formula,
 	\begin{equation}
 		D_{i,j} = \sqrt{||s_i - r_j||} - \min{(D_{i-1,j}, D_{i-1,j-1}, D_{i,j-1})}
 	\end{equation}
 	with the initial condition $D_{1,1} = 0$
+	\item The entry $D(n, m)$ contains the minimum-distance for the warping path between $s$ and $t$.
 \end{enumerate}
 
 This algorithm has $\mathcal{O}(nm)$ time complexity. This can be improved by the use of a window of size $r > 0$ that will constrain the amount of warping allowed. In particular, it restrains the distance in the time axis that a point $s_i$, $i = 1,\dots,n$ can be mapped to in $t$.
 
-We used the so-called \textit{"Sakoe-Chiba Band"} window which assumes that the best path will not stray too far away from the main diagonal of the distance matrix. 
+We can use the so-called \textit{"Sakoe-Chiba Band"} window which assumes that the best path will not stray too far away from the main diagonal of the distance matrix. 
 Let $w$ be the window size, the window constraint implies the following,
 \begin{align*}
 	j - w \leq i \leq j + w
 \end{align*}
-where $i$ and $j$ are two points aligning in $s$ and $t$ respectively.
-
-The number of cells that needs to be computed in the distance matrix is therefore reduced.
+where $i$ and $j$ are two points aligning in $s$ and $t$ respectively. The number of cells that needs to be computed in the distance matrix is therefore reduced. However, this constraints does not work so well if we have time series stopping at radically different time. For such time series, the warping path can stray far away from the linear one implying the need to fill (almost) the whole distance matrix.
