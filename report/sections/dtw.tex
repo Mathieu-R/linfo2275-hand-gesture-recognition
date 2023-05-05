@@ -1,5 +1,7 @@
 \section{Dynamic time warping}
 
+\subsection[short]{Introduction}
+
 Given a time series of three-dimensional unknown vector data points, we would like to predict the sketch represented by these points. In order to do this, we used a K-Nearest Neighbors approach where we find the $k$ most similar time series in the dataset and use the most represented target value among the $k$ time series and use it as the prediction output.
 
 To find the $k$ most similar time series, we use a distance function as the similarity measure. However, we cannot use the often used euclidean distance as it produces pessimistic results when dealing with time series of different lengths.
@@ -46,3 +48,13 @@ Let $w$ be the window size, the window constraint implies the following,
 	j - w \leq i \leq j + w
 \end{align*}
 where $i$ and $j$ are two points aligning in $s$ and $t$ respectively. The number of cells that needs to be computed in the distance matrix is therefore reduced. However, this constraints does not work so well if we have time series stopping at radically different time. For such time series, the warping path can stray far away from the linear one implying the need to fill (almost) the whole distance matrix.
+
+\subsection{Results}
+
+\subsubsection{User-independent cross-validation}
+
+% best model: n_neighbors = 1, radius = 1
+
+% user-independent cross validation: mean accuracy: 0.743 ; std accuracy: 0.146
+
+\subsubsection{User-dependent cross-validation}
