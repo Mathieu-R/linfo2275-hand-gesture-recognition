@@ -161,3 +161,10 @@
 \makeatother
 
 \renewcommand*\contentsname{Table des matières}
+
+%--------------
+% BIBLIOGRAPHY
+%--------------
+\usepackage[backend=biber,style=apa,autocite=inline]{biblatex}
+\DeclareLanguageMapping{french}{french-apa}
+\usepackage[autostyle=true]{csquotes} % Required to generate language-dependent quotes in the bibliography

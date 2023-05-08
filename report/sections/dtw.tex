@@ -40,14 +40,18 @@ In practice, to find the optimal path, we use a dynamic programming approach whi
 	\item The entry $D(n, m)$ contains the minimum-distance for the warping path between $s$ and $t$.
 \end{enumerate}
 
-This algorithm has $\mathcal{O}(nm)$ time complexity. This can be improved by the use of a window of size $r > 0$ that will constrain the amount of warping allowed. In particular, it restrains the distance in the time axis that a point $s_i$, $i = 1,\dots,n$ can be mapped to in $t$.
+This algorithm has $\mathcal{O}(nm)$ time complexity. We can however speed up the algorithm by applying \textbf{contraints} that consists in limiting the number of cells that are evaluated in the distance matrix (e.g. using a Sakoe-Chiba Band window\footnote{In a nutshell, this window assumes that the best path will not stray too far away from the main diagonal of the distance matrix.}) and \textbf{data abstraction} that consists in performing the algorithm on a reduced representation of the data. Instead of running the algorithm on the full distance matrix, we reduce the size of the time series which implies that the number of cells in the distance matrix are reduced. Once the warping path is found on this low-resolution matrix, we map it back to a higher-resolution matrix. This projected path is used as an initial guess for a new warping path on this new distance matrix. In other words, the projected path is refined on the hiher-resolution matrix by making \textbf{local adjustments}\footnote{These local adjustments can be controlled through a radius parameter that controls the number of cells that will be evaluated around the path.} which implies that this matrix is only filled in the neighborhood projected path. This results in a algorithm with linear time complexity since the warping path grows linearly with the size of the time series. 
 
-We can use the so-called \textit{"Sakoe-Chiba Band"} window which assumes that the best path will not stray too far away from the main diagonal of the distance matrix. 
-Let $w$ be the window size, the window constraint implies the following,
-\begin{align*}
-	j - w \leq i \leq j + w
-\end{align*}
-where $i$ and $j$ are two points aligning in $s$ and $t$ respectively. The number of cells that needs to be computed in the distance matrix is therefore reduced. However, this constraints does not work so well if we have time series stopping at radically different time. For such time series, the warping path can stray far away from the linear one implying the need to fill (almost) the whole distance matrix.
+Researches \cite[text]{keylist} have shown that using a single neighbor in the KNN algorithm gives the best results. Moreover, trying different combination of number of neighbors and radius hyperparameters, we notices that a good tradeoff between efficiency and rapidity was not only obtained with a single neighbor but also with a radius of 1.
+
+% This can be improved by the use of a window of size $r > 0$ that will constrain the amount of warping allowed. In particular, it restrains the distance in the time axis that a point $s_i$, $i = 1,\dots,n$ can be mapped to in $t$.
+
+% We can use the so-called \textit{"Sakoe-Chiba Band"} window which assumes that the best path will not stray too far away from the main diagonal of the distance matrix. 
+% Let $w$ be the window size, the window constraint implies the following,
+% \begin{align*}
+% 	j - w \leq i \leq j + w
+% \end{align*}
+% where $i$ and $j$ are two points aligning in $s$ and $t$ respectively. The number of cells that needs to be computed in the distance matrix is therefore reduced. However, this constraints does not work so well if we have time series stopping at radically different time. For such time series, the warping path can stray far away from the linear one implying the need to fill (almost) the whole distance matrix.
 
 \subsection{Results}
 

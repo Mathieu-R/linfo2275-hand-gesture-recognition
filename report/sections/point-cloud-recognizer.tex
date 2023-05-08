@@ -1,0 +1,32 @@
+\section{\$P-recognizer}
+
+In this algorithm, we consider each gesture as a set of points: $\set{pi = (x_i, y_i) : i = 1,...,N}$. In our case, because of the resampling made in the preprocessing step, each gesture is represented by a set of $N = 64$ points. It is worth noticing that gesture are seen as a cloud of points so that there does not need to have order in the set (i.g. $p_1$ is not the starting point nor $p_{i}$ follow $p_{i-1}$) even though it's the case for us. 
+
+Let $C$ and $T$ be clouds of points. The first one correspond to a gesture candidate whereas the second one is a template in the training set. The aim of this algorithm is to match $C$ to $T$ by the use of a nearest neighbor classifier (KNN) in the same idea as in the precedent section. Here we obviously do not use a DTW algorithm to compute the distance but the sum of euclidean distances for all pairs of points $(C_i, T_j)$ where $C_i \in C$ is matched to $T_j \in T$ through some function $f: \R^2 \rightarrow \R^2, \quad C_i \rightarrow f(T_j)$,
+\begin{equation}
+	d(C, T) = \sum_{i=1}^{N} ||C_i - T_j||_2
+\end{equation}
+
+However this algorithm require to search for the minimum matching distance between $C$ and $T$ from $n!$ possible alignments. The library we used to run this algorithm use a special heuristic called Greedy-5\cite[text]{keylist}. The idea is that for each point $C_i \in C$, we find the closest point in $T$ that has not been matched yet. Once it is matched with $C_i$, we continue with $C_{i+1}$ and so on until all the points of $C$ are matched with a point of $T$. The closeness is computed through a weighted euclidean distance,
+
+\begin{equation}
+	d(C, T) = \sum_{i=1}^{N} w_i ||C_i - T_j||_2
+\end{equation}
+where $w_i$ indicate the confidence in each pair $(C_i, T_j)$.
+
+Basically, the first match has a weight of $1$ since $C_i$ has all the points of $T$ to choose for the closest match. As long as the possibility of matching reduce, the confidence also. The formula for the weights translate a linearly decreasing weighting,
+\begin{equation}
+	w_i = 1 - \frac{i - 1}{N}
+\end{equation}
+
+This heuristic allows us to have a time complexity of $\mathcal{O}(n^{2 + \epsilon})$ which is comparable to the DTW algorithm without any optimization.
+
+\subsection{Results}
+
+\subsubsection{User-independent cross-validation}
+
+% best model: n_neighbors = 1, radius = 1
+
+% user-independent cross validation: mean accuracy: 0.743 ; std accuracy: 0.146
+
+\subsubsection{User-dependent cross-validation}
