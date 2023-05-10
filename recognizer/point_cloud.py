@@ -77,7 +77,7 @@ class PointCloudRecognizer:
 				point = Point(x1, x2)
 				points.append(point)
 
-			result = self.recognizer.recognize(points, n=64)
+			result = self.recognizer.recognize(points, n=self.N)
 			results.append(result[0])
 
 		return results

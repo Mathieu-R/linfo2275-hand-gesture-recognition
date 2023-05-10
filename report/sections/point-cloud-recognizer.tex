@@ -25,8 +25,37 @@ This heuristic allows us to have a time complexity of $\mathcal{O}(n^{2 + \epsil
 
 \subsubsection{User-independent cross-validation}
 
-% best model: n_neighbors = 1, radius = 1
+For the first domain, we get a mean accuracy of $0.925$ along with a standard deviation of $0.029$ for the user-independent cross-validation. This is way better than with the DTW algorithm even though we had resample the datas with half the number of data points than for the precedent algorithm for computation time purpose.
 
-% user-independent cross validation: mean accuracy: 0.743 ; std accuracy: 0.146
+\begin{figure}[H]
+	\centering
+	\includegraphics{figures/pcr/domain01/cm_pcr_d1_uindep.png}
+	\caption{Confusion matrices of the different splits for the domain 1 using \$P-Recognizer algorithm (user independent cross-validation)}
+	\label{fig:cm-pcr-d1-uindep}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics{figures/pcr/domain03/cm_pcr_d3_uindep.png}
+	\caption{Confusion matrices of the different splits for the domain 3 using \$P-Recognizer algorithm (user independent cross-validation)}
+	\label{fig:cm-pcr-d3-uindep}
+\end{figure}
 
 \subsubsection{User-dependent cross-validation}
+
+For the first domain, we get a mean accuracy of $0.967$ with a standard deviation of $0.02$. This is a little bit more accurate than for the user-independent cross-validation 
+
+\begin{figure}[H]
+	\centering
+	\includegraphics{figures/pcr/domain01/cm_pcr_d1_udep.png}
+	\caption{Confusion matrices of the different splits for the domain 1 using \$P-Recognizer algorithm (user dependent cross-validation)}
+	\label{fig:cm-pcr-d1-udep}
+\end{figure}
+
+
+\begin{figure}[H]
+	\centering
+	\includegraphics{figures/pcr/domain03/cm_pcr_d3_udep.png}
+	\caption{Confusion matrices of the different splits for the domain 3 using \$P-Recognizer algorithm (user dependent cross-validation)}
+	\label{fig:cm-pcr-d3-udep}
+\end{figure}

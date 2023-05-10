@@ -57,8 +57,40 @@ Researches \cite[text]{keylist} have shown that using a single neighbor in the K
 
 \subsubsection{User-independent cross-validation}
 
-% best model: n_neighbors = 1, radius = 1
+In the user-independent cross-validation, for the first domain, we get a mean accuracy of $0.743$ with a large standard deviation of $0.146$. Interestingly, looking at the confusion matrices for the different splits, we notice a lof of misclassifications for the last split.
 
-% user-independent cross validation: mean accuracy: 0.743 ; std accuracy: 0.146
+\begin{figure}[H]
+	\centering
+	\includegraphics{figures/dtw/domain01/cm_dtw_d1_uindep.png}
+	\caption{Confusion matrices of the different splits for the domain 1 using fast DTW algorithm (user independent cross-validation)}
+	\label{fig:cm-dtw-d1-uindep}
+\end{figure}
+
+For the third domain however, we get a mean accuracy of $0.853$ with still a large standard deviation of $0.117$. It was pretty much unexcepted as this domain contains (plus complexes) sketch than simple numbers. Here it is the split nine that contains a lot of missclassifications
+
+\begin{figure}[H]
+	\centering
+	\includegraphics{figures/dtw/domain03/cm_dtw_d3_uindep.png}
+	\caption{Confusion matrices of the different splits for the domain 3 using fast DTW algorithm (user independent cross-validation)}
+	\label{fig:cm-dtw-d3-uindep}
+\end{figure}
 
 \subsubsection{User-dependent cross-validation}
+
+In the user-dependentent cross-validation, we get far more better results. For the first domain, our classifier is almost perfect with a mean accuracy of $0.99$ and a standard deviation of $0.009$.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics{figures/dtw/domain01/cm_dtw_d1_udep.png}
+	\caption{Confusion matrices of the different splits for the domain 1 using fast DTW algorithm (user dependent cross-validation)}
+	\label{fig:cm-dtw-d1-udep}
+\end{figure}
+
+For the third domain, we have a mean accuracy of $0.997$ and a standard deviation of $0.005$.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics{figures/dtw/domain03/cm_dtw_d3_udep.png}
+	\caption{Confusion matrices of the different splits for the domain 3 using fast DTW algorithm (user dependent cross-validation)}
+	\label{fig:cm-dtw-d3-udep}
+\end{figure}
