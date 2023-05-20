@@ -7,7 +7,7 @@ Let $C$ and $T$ be clouds of points. The first one correspond to a gesture candi
 	d(C, T) = \sum_{i=1}^{N} ||C_i - T_j||_2
 \end{equation}
 
-However this algorithm require to search for the minimum matching distance between $C$ and $T$ from $n!$ possible alignments. The library we used to run this algorithm use a special heuristic called Greedy-5\cite[text]{keylist}. The idea is that for each point $C_i \in C$, we find the closest point in $T$ that has not been matched yet. Once it is matched with $C_i$, we continue with $C_{i+1}$ and so on until all the points of $C$ are matched with a point of $T$. The closeness is computed through a weighted euclidean distance,
+However this algorithm require to search for the minimum matching distance between $C$ and $T$ from $n!$ possible alignments. The library we used to run this algorithm use a special heuristic called Greedy-5(\cite{Vatavu_Anthony_Wobbrock_2012}). The idea is that for each point $C_i \in C$, we find the closest point in $T$ that has not been matched yet. Once it is matched with $C_i$, we continue with $C_{i+1}$ and so on until all the points of $C$ are matched with a point of $T$. The closeness is computed through a weighted euclidean distance,
 
 \begin{equation}
 	d(C, T) = \sum_{i=1}^{N} w_i ||C_i - T_j||_2
@@ -34,6 +34,8 @@ For the first domain, we get a mean accuracy of $0.925$ along with a standard de
 	\label{fig:cm-pcr-d1-uindep}
 \end{figure}
 
+For the third domain, we get a mean accuracy of $0.971$ along with a standard deviation of $0.021$. This is slightly better than for the first domain despite this one has more complex shape to recognize.
+
 \begin{figure}[H]
 	\centering
 	\includegraphics{figures/pcr/domain03/cm_pcr_d3_uindep.png}
@@ -43,7 +45,7 @@ For the first domain, we get a mean accuracy of $0.925$ along with a standard de
 
 \subsubsection{User-dependent cross-validation}
 
-For the first domain, we get a mean accuracy of $0.967$ with a standard deviation of $0.02$. This is a little bit more accurate than for the user-independent cross-validation 
+For the first domain, we get a mean accuracy of $0.967$ with a standard deviation of $0.02$. This is a little bit more accurate than for the user-independent cross-validation.
 
 \begin{figure}[H]
 	\centering
@@ -52,6 +54,7 @@ For the first domain, we get a mean accuracy of $0.967$ with a standard deviatio
 	\label{fig:cm-pcr-d1-udep}
 \end{figure}
 
+For the third domain, we get a mean accuracy of $0.99$ along with a standard deviation of $0.01$. This is slightly better than the first domain.
 
 \begin{figure}[H]
 	\centering

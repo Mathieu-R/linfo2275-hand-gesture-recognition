@@ -1,4 +1,4 @@
-\documentclass[10pt, a4paper, nofootinbib]{scrartcl}
+\documentclass[10pt, a4paper]{scrartcl}
 
 \newcommand{\pagetitle}{} 
 
@@ -7,7 +7,7 @@
 
 \pagenumbering{arabic}
 
-\addbibresource(references.bib)
+\addbibresource{references.bib}
 
 \begin{document}
 
@@ -21,14 +21,6 @@
 \input{sections/point-cloud-recognizer.tex}
 
 \newpage 
-
 \printbibliography
-\nocite{*}
-
-\newpage
-
-\appendix
-
-\input{sections/appendix.tex}
 
 \end{document}

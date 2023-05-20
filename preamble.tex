@@ -1,13 +1,17 @@
-\usepackage{scrlayer-scrpage}
+\usepackage[headsepline,footsepline]{scrlayer-scrpage}
+\usepackage{blindtext}
+\usepackage{lastpage}
+
 \pagestyle{scrheadings}
 
-\setheadsepline{0.4pt} % Ligne au-dessus de la page
-\setfootsepline{0.4pt} % Ligne au-dessous de la page
+\KOMAoptions{headsepline=0.4pt, footsepline=0.4pt}
+\clearpairofpagestyles
 
 % header
 \setkomafont{pagehead}{\bfseries}  % police en-tête 
 \lohead{\pagetitle}
 
 % footer
+\renewcommand\pagemark{{\usekomafont{pagenumber}\thepage\ of \pageref{LastPage}}}
 \ifoot{2022-2023}
 \ofoot{\pagemark}

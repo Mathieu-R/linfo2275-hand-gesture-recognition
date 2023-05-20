@@ -61,6 +61,13 @@ def full_dtw(ts_a: npt.NDArray, ts_b: npt.NDArray, dist_function, radius: int = 
 	return sqrt(DTW_matrix[n, m])
 
 def coarsening(ts):
+	"""_summary_
+
+	Parameters
+	----------
+	ts : Array-like, shape (n_timepoints, vec_dimension)
+		Time series of hand gesture data points
+	"""
 	def averaging(ts, i):
 		return (ts[i] + ts[i + 1]) / 2
 
@@ -69,6 +76,24 @@ def coarsening(ts):
 	return np.asarray(averaged_ts)
 
 def expand_searching_window(warping_path, n, m, radius):
+	"""Expand the searching window around the warping path by a radius factor.
+
+	Parameters
+	----------
+	warping_path : Array-like, shape ()
+		Warping path
+	n : _type_
+		_description_
+	m : _type_
+		_description_
+	radius : int
+		Radius by which we expand the searching window
+
+	Returns
+	-------
+	Array-like, shape
+		The extended searching window
+	"""
 	warping_path_set = set(warping_path)
 
 	for (i, j) in warping_path:
@@ -106,6 +131,24 @@ def expand_searching_window(warping_path, n, m, radius):
 	return searching_window
 
 def constrained_dtw(ts_a, ts_b, dist_function, window):
+	"""Compute the dtw distance between two time series on a constrained window.
+
+	Parameters
+	----------
+	ts_a : npt.NDArray, shape (n_timepoints, vec_dimension)
+		Time series of hand gesture data points
+	ts_b : npt.NDArray, shape (m_timepoints, vec_dimension)
+		Time series of hand gesture data points
+	dist_function : _type_
+		A distance function to compute the distance between two data points
+	window : Array-like, shape ()
+		The constrained window
+
+	Returns
+	-------
+	float, list[(int, int)]
+		The computed distance between the two time series as well as the shortest path
+	"""
 	n = len(ts_a)
 	m = len(ts_b)
 
@@ -150,6 +193,24 @@ def constrained_dtw(ts_a, ts_b, dist_function, window):
 	return cost_matrix[n, m][0], path
 
 def fast_dtw(ts_a, ts_b, dist_function, radius = 1):
+	"""Run the fast dtw algorithm
+
+	Parameters
+	----------
+	ts_a : npt.NDArray, shape (n_timepoints, vec_dimension)
+		Time series of hand gesture data points
+	ts_b : npt.NDArray, shape (m_timepoints, vec_dimension)
+		Time series of hand gesture data points
+	dist_function : _type_
+		A distance function to compute the distance between two data points
+	radius : int, optional
+		The factor by which we should expand the searching window, by default 1
+
+	Returns
+	-------
+	float, list[(int, int)]
+		The computed distance between the two time series as well as the shortest path
+	"""
 	n = len(ts_a)
 	m = len(ts_b)
 
