@@ -1,9 +1,9 @@
 \section{Introduction}
 
-We want to implement a hand gesture recognition system for a smart user interface. A 3D tracking of the position vector $\vb{r}(t) = (x(t), y(t), z(t))^T$ of the hand is recorded as a sequence of the 3 coordinates in function of the time $t$\footnote{Note that we will not consider the precise recorded time of the observations.}. The user is executing a sketch that is recorded and recognized by the system.
+We want to implement a hand gesture recognition system for a smart user interface. A 3D tracking of the position vector $\bm{r}(t) = (x(t), y(t), z(t))^T$ of the hand is recorded as a sequence of the 3 coordinates in function of the time $t$\footnote{Note that we will not consider the precise recorded time of the observations.}. The user is executing a sketch that is recorded and recognized by the system.
 
-The system will be trained in order to recognize two different kind of sketches.
+In order to recognize two different kind of sketches, the system will be trained by two algorithms: a K-Nearest Neighbors classifier using dynamic time warping (dtw) as a distance function and a \$P-recognizer.
 
-A first dataset contains the records of the numbers $0,1,2,3,4,5,6,7,8,9$ in three dimensions. We asked $10$ users to draw $10$ times each of these numbers. We have therefore a total of $1000$ sequences.
+A first dataset contains the records of the numbers $0,1,2,3,4,5,6,7,8,9$ in three dimensions. We asked $10$ users to draw $10$ times each of these numbers. We have therefore a total of $1000$ sequences. A second dataset contains the records of three-dimensional figures. As for the precedent dataset, $10$ users have drawn each figure $10$ times.
 
-A second dataset contains the records of three-dimensional figures. As for the precedent dataset, $10$ users have drawn each figure $10$ times.
+To analyse the results we will use two cross-validation scheme, the first one is \textit{user-independent} which means that for each split, we use the data from $9$ users to fit the model and the data from remaining user to test the model. The second one is \textit{user-dependent} which means that for each split, we use $9$ examples from each user to fit the model and the remaining example of each user to test the model.

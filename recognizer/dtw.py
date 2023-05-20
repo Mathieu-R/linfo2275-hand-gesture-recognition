@@ -61,7 +61,7 @@ def full_dtw(ts_a: npt.NDArray, ts_b: npt.NDArray, dist_function, radius: int = 
 	return sqrt(DTW_matrix[n, m])
 
 def coarsening(ts):
-	"""_summary_
+	"""Reduce the size of the time series
 
 	Parameters
 	----------
